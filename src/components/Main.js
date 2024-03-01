@@ -47,6 +47,10 @@ const Main = () => {
     setProcessFileIndex,
   ]);
 
+  const controlText = phase === constants.phase.paused ? 'Resume' : 'Pause';
+  const started = phase !== constants.phase.waiting;
+  const emptyEntries = !entries?.length;
+
   const handlePause = () => {
     const value =
       phase === constants.phase.paused
@@ -56,6 +60,9 @@ const Main = () => {
   };
 
   const handleUnZip = async () => {
+    if (started) {
+      return false;
+    }
     try {
       const dirPicker = await window.showDirectoryPicker();
       setDirPicker(dirPicker);
@@ -63,16 +70,21 @@ const Main = () => {
     } catch (e) {}
   };
 
-  const controlText = phase === constants.phase.paused ? 'Resume' : 'Pause';
-  const started = phase !== constants.phase.waiting;
-  const emptyEntries = !entries?.length;
+  const handleReset = () => {
+    setProcessFileIndex(null);
+    setPhase(constants.phase.waiting);
+  };
 
   return (
     <div className={styles.root}>
       <div className={styles.header}>
-        <AppInput setEntries={setEntries} />
+        <AppInput onReset={handleReset} setEntries={setEntries} />
         <div className={styles.control}>
-          <Button disabled={emptyEntries} onClick={handleUnZip} primary>
+          <Button
+            disabled={emptyEntries || started}
+            onClick={handleUnZip}
+            primary
+          >
             Unzip
           </Button>
           {started && (

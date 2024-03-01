@@ -10,3 +10,7 @@
   background-color: var(--color-primary);
   color: #fff;
 }
+.root:disabled, .root.primary:disabled {
+  background-color: #898989;
+  cursor: not-allowed;
+}

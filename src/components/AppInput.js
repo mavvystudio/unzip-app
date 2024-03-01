@@ -9,6 +9,7 @@ const AppInput = (props) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    props.onReset();
 
     if (!file) {
       props.setEntries(null);
