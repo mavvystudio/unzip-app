@@ -14,8 +14,7 @@ const App = () => {
   const [phase, setPhase] = useState(constants.phase.waiting);
   const { entries, copy, rename, setEntries } = useZip();
   const [dirPicker, setDirPicker] = useState(null);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [error, setError] = useState(null);
+  const [alert, setAlert] = useState(null);
 
   const handleExtractFile = useCallback(
     (item) => utils.extractFile(item, dirPicker),
@@ -27,7 +26,10 @@ const App = () => {
 
   useEffect(() => {
     if (isDone) {
-      setShowSuccess(true);
+      setAlert({
+        title: 'Success!',
+        message: 'Zip file extracted successfully',
+      });
     }
   }, [isDone]);
 
@@ -51,7 +53,7 @@ const App = () => {
         await handleExtractFile(item);
       } catch (e) {
         setPhase(constants.phase.paused);
-        setError({
+        setAlert({
           title: 'Error',
           message:
             'Something went wrong. Please check the contents of the zip file.',
@@ -70,12 +72,9 @@ const App = () => {
   ]);
 
   const handleClose = () => {
-    setShowSuccess(false);
+    setAlert(null);
   };
 
-  const handleErrorClose = () => {
-    setError(null);
-  };
   const defaultProcessIndex = processFileIndex || 0;
 
   const handleReset = () => {
@@ -121,18 +120,11 @@ const App = () => {
         done={isDone}
         phase={phase}
       />
-      {showSuccess && (
+      {alert && (
         <Alert
           onClose={handleClose}
-          title="Success!"
-          message="Zip file extracted successfully"
-        />
-      )}
-      {error && (
-        <Alert
-          onClose={handleErrorClose}
-          title={error.title}
-          message={error.message}
+          title={alert.title}
+          message={alert.message}
         />
       )}
     </div>
