@@ -16,6 +16,7 @@ const Main = () => {
   const { entries, copy, rename, setEntries } = useZip();
   const [dirPicker, setDirPicker] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleExtractFile = useCallback(
     (item) => utils.extractFile(item, dirPicker),
@@ -49,7 +50,17 @@ const Main = () => {
         return false;
       }
 
-      handleExtractFile(item);
+      try {
+        handleExtractFile(item);
+      } catch (e) {
+        setPhase(constants.phase.paused);
+        setError({
+          title: 'Error',
+          message:
+            'Something went wrong. Please check the contents of the zip file.',
+        });
+        return false;
+      }
       // simulate processing time
       await utils.tick(300);
       setProcessFileIndex(processFileIndex + 1);
@@ -64,6 +75,10 @@ const Main = () => {
 
   const handleClose = () => {
     setShowSuccess(false);
+  };
+
+  const handleErrorClose = () => {
+    setError(null);
   };
 
   const handlePause = () => {
@@ -122,6 +137,13 @@ const Main = () => {
           onClose={handleClose}
           title="Success!"
           message="Zip file extracted successfully"
+        />
+      )}
+      {error && (
+        <Alert
+          onClose={handleErrorClose}
+          title={error.title}
+          message={error.message}
         />
       )}
     </div>
