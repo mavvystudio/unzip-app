@@ -5,15 +5,16 @@ import Modal from './Modal';
 import styles from './RenameDialog.module.css';
 
 const RenameDialog = (props) => {
-  const [fileName, fileExtension] = (props.fileName || '').split('.');
-  const [value, setValue] = useState(fileName || '');
+  const fileArr = (props.fileName || '').split('.');
+  const fileExtension = fileArr.pop();
+  const [value, setValue] = useState(fileArr.join('.'));
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   const handleSave = () => {
-    props.onSave(`${value}${fileExtension || ''}`);
+    props.onSave(`${value}.${fileExtension || ''}`);
   };
 
   return (

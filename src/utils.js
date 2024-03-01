@@ -37,8 +37,10 @@ export const tick = (ms = 1000) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const generateUniqueName = (name, items) => {
-  const [fileName, fileExtension] = name.split('.');
-  const newName = `${fileName || ''}_copy.${fileExtension || ''}`;
+  const fileArr = name.split('.');
+  const fileExtension = fileArr.pop();
+  const fileName = fileArr.join('.');
+  const newName = `${fileName}_copy.${fileExtension || ''}`;
   const findItem = items.find((item) => item.filename === newName);
   if (findItem) {
     return generateUniqueName(newName, items);
