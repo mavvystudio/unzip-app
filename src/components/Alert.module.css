@@ -1,0 +1,5 @@
+.root {
+  background-color: var(--color-surface);
+  padding: 1em;
+  border-radius: 12px;
+}
