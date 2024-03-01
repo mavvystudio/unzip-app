@@ -106,6 +106,9 @@ const Main = () => {
     setPhase(constants.phase.waiting);
   };
 
+  const defaultProcessIndex = processFileIndex || 0;
+  const showPauseResumeBtn = started && !isDone;
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -118,7 +121,7 @@ const Main = () => {
           >
             Unzip
           </Button>
-          {started && !isDone && (
+          {showPauseResumeBtn && (
             <Button disabled={emptyEntries} onClick={handlePause}>
               {controlText}
             </Button>
@@ -129,7 +132,7 @@ const Main = () => {
         entries={entries}
         copy={copy}
         rename={rename}
-        processFileIndex={started ? processFileIndex || 0 : undefined}
+        processFileIndex={started ? defaultProcessIndex : undefined}
         done={isDone}
       />
       {showSuccess && (
