@@ -14,6 +14,9 @@ const RenameDialog = (props) => {
   };
 
   const handleSave = () => {
+    if (!value) {
+      return false;
+    }
     props.onSave(`${value}.${fileExtension || ''}`);
   };
 
