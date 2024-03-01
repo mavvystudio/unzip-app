@@ -3,11 +3,13 @@ import React, { useState, useCallback, useEffect } from 'react';
 import * as constants from '../constants';
 import * as utils from '../utils';
 import { useZip } from './Context';
+import styles from './Main.module.css';
 import AppInput from './AppInput';
+import Button from './Button';
 import Entries from './Entries';
 
 const Main = () => {
-  const [processFileIndex, setProcessFileIndex] = useState(0);
+  const [processFileIndex, setProcessFileIndex] = useState(null);
   const [phase, setPhase] = useState(constants.phase.waiting);
   const { entries, copy, rename, setEntries } = useZip();
   const [dirPicker, setDirPicker] = useState(null);
@@ -26,7 +28,7 @@ const Main = () => {
         return false;
       }
 
-      const item = entries[processFileIndex];
+      const item = entries[processFileIndex || 0];
 
       if (!item) {
         setPhase(constants.phase.done);
@@ -66,21 +68,25 @@ const Main = () => {
   const emptyEntries = !entries?.length;
 
   return (
-    <div>
-      <AppInput setEntries={setEntries} />
-      <button disabled={emptyEntries} onClick={handleUnZip}>
-        Unzip
-      </button>
-      {started && (
-        <button disabled={emptyEntries} onClick={handlePause}>
-          {controlText}
-        </button>
-      )}
+    <div className={styles.root}>
+      <div className={styles.header}>
+        <AppInput setEntries={setEntries} />
+        <div className={styles.control}>
+          <Button disabled={emptyEntries} onClick={handleUnZip} primary>
+            Unzip
+          </Button>
+          {started && (
+            <Button disabled={emptyEntries} onClick={handlePause}>
+              {controlText}
+            </Button>
+          )}
+        </div>
+      </div>
       <Entries
         entries={entries}
         copy={copy}
         rename={rename}
-        processFileIndex={processFileIndex}
+        processFileIndex={started ? processFileIndex || 0 : undefined}
       />
     </div>
   );

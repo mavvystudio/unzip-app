@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  display: flex;
+  padding: 2em;
+  background: var(--color-surface);
+}
+
+.control {
+  display: flex;
+  column-gap: 10px;
+}

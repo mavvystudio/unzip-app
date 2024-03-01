@@ -1,7 +1,13 @@
 import React from 'react';
 
+import styles from './EntryItem.module.css';
+import Button from './Button';
+
 const EntryItem = (props) => {
   const isDone = props.id < props.processFileIndex;
+  const isCurrent = props.id === props.processFileIndex;
+  const done = isDone && 'done';
+  const current = isCurrent && 'current';
 
   const handleRename = () => {
     if (isDone) {
@@ -14,14 +20,17 @@ const EntryItem = (props) => {
     props.onCopy(props.id);
   };
 
+  const entryStatus = styles[done || current];
+
   return (
-    <li>
-      {isDone && 'ok'}
+    <li className={`${styles.root} ${entryStatus}`}>
+      <div className={styles.control}>
+        <Button disabled={isDone} onClick={handleRename}>
+          Rename
+        </Button>
+        <Button onClick={handleCopy}>Copy</Button>
+      </div>
       {props.item.filename}
-      <button disabled={isDone} onClick={handleRename}>
-        Rename
-      </button>
-      <button onClick={handleCopy}>Copy</button>
     </li>
   );
 };

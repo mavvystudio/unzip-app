@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import styles from './Entries.module.css';
 import RenameDialog from './RenameDialog';
 import EntryItem from './EntryItem';
 
@@ -31,10 +32,8 @@ const Entries = (props) => {
     props.copy(index);
   };
 
-  console.log('render');
-
   return (
-    <ul>
+    <ul className={styles.root}>
       {props.entries.map((item, index) => (
         <EntryItem
           key={index}
