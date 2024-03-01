@@ -7,10 +7,9 @@ import AppInput from './AppInput';
 import Entries from './Entries';
 
 const Main = () => {
-  // TODO: do not use index 0 as the initial value
   const [processFileIndex, setProcessFileIndex] = useState(0);
   const [phase, setPhase] = useState(constants.phase.waiting);
-  const { entries } = useZip();
+  const { entries, copy, rename, setEntries } = useZip();
   const [dirPicker, setDirPicker] = useState(null);
 
   const handleExtractFile = useCallback(
@@ -55,9 +54,11 @@ const Main = () => {
   };
 
   const handleUnZip = async () => {
-    const dirPicker = await window.showDirectoryPicker();
-    setDirPicker(dirPicker);
-    setPhase(constants.phase.processing);
+    try {
+      const dirPicker = await window.showDirectoryPicker();
+      setDirPicker(dirPicker);
+      setPhase(constants.phase.processing);
+    } catch (e) {}
   };
 
   const controlText = phase === constants.phase.paused ? 'Resume' : 'Pause';
@@ -66,7 +67,7 @@ const Main = () => {
 
   return (
     <div>
-      <AppInput />
+      <AppInput setEntries={setEntries} />
       <button disabled={emptyEntries} onClick={handleUnZip}>
         Unzip
       </button>
@@ -75,7 +76,12 @@ const Main = () => {
           {controlText}
         </button>
       )}
-      <Entries processFileIndex={processFileIndex} />
+      <Entries
+        entries={entries}
+        copy={copy}
+        rename={rename}
+        processFileIndex={processFileIndex}
+      />
     </div>
   );
 };

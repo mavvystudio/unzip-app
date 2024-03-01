@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 
-import { useZip } from './Context';
 import * as utils from '../utils';
 
 import Alert from './Alert';
 
-const AppInput = () => {
+const AppInput = (props) => {
   const [error, setError] = useState(null);
-  const { setEntries } = useZip();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
     if (!file) {
-      setEntries(null);
+      props.setEntries(null);
       return false;
     }
 
@@ -24,8 +22,9 @@ const AppInput = () => {
     fileReader.onload = async (event) => {
       try {
         const entries = await utils.getEntries(event);
-        setEntries(entries);
+        props.setEntries(entries);
       } catch (e) {
+        props.setEntries(null);
         setError({
           title: 'Error reading file',
           message: 'Please make sure you have selected a zip file',
@@ -40,7 +39,7 @@ const AppInput = () => {
 
   return (
     <>
-      <input type="file" onChange={handleFileChange} />
+      <input name="zipfile" type="file" onChange={handleFileChange} />
       {error && (
         <Alert
           title={error.title}
