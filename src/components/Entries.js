@@ -8,7 +8,7 @@ import EntryItem from './EntryItem';
 const Entries = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const { entries, rename } = useZip();
+  const { entries, rename, copy } = useZip();
 
   if (!entries) {
     return null;
@@ -27,6 +27,10 @@ const Entries = (props) => {
     rename(selectedIndex, newName);
   };
 
+  const handleCopy = (index) => {
+    copy(index);
+  };
+
   return (
     <ul>
       {entries.map((item, index) => (
@@ -36,6 +40,7 @@ const Entries = (props) => {
           item={item}
           processFileIndex={props.processFileIndex}
           onRename={handleRename}
+          onCopy={handleCopy}
         />
       ))}
       {showModal &&

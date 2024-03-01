@@ -10,7 +10,9 @@ const EntryItem = (props) => {
     props.onRename(props.id);
   };
 
-  const handleCopy = () => {};
+  const handleCopy = () => {
+    props.onCopy(props.id);
+  };
 
   return (
     <li>
