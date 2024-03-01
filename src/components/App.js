@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import * as constants from '../constants';
-import useZip from '../use-zip.js';
 import styles from './App.module.css';
 
 import Alert from './Alert';
@@ -11,7 +10,6 @@ import HeaderControl from './HeaderControl';
 const App = () => {
   const [processFileIndex, setProcessFileIndex] = useState(null);
   const [phase, setPhase] = useState(constants.phase.waiting);
-  const { entries, copy, rename, setEntries } = useZip();
   const [alert, setAlert] = useState(null);
 
   const started = phase !== constants.phase.waiting;
@@ -35,8 +33,6 @@ const App = () => {
   return (
     <div className={styles.root}>
       <HeaderControl
-        entries={entries}
-        setEntries={setEntries}
         processFileIndex={processFileIndex}
         setProcessFileIndex={setProcessFileIndex}
         phase={phase}
@@ -44,9 +40,6 @@ const App = () => {
         setAlert={setAlert}
       />
       <Entries
-        entries={entries}
-        copy={copy}
-        rename={rename}
         processFileIndex={started ? defaultProcessIndex : undefined}
         done={isDone}
         phase={phase}

@@ -5,9 +5,11 @@ import * as constants from '../constants';
 import styles from './HeaderControl.module.css';
 import AppInput from './AppInput';
 import Button from './Button';
+import { useZip } from './Context';
 
 const HeaderControl = (props) => {
   const [dirPicker, setDirPicker] = useState(null);
+  const { entries, setEntries } = useZip();
 
   const handleExtractFile = useCallback(
     (item) => utils.extractFile(item, dirPicker),
@@ -22,7 +24,7 @@ const HeaderControl = (props) => {
         return false;
       }
 
-      const item = props.entries[props.processFileIndex || 0];
+      const item = entries[props.processFileIndex || 0];
 
       if (!item) {
         props.setPhase(constants.phase.done);
@@ -43,13 +45,13 @@ const HeaderControl = (props) => {
 
       props.setProcessFileIndex(props.processFileIndex + 1);
     })();
-  }, [handleExtractFile, props]);
+  }, [handleExtractFile, entries, props]);
 
   const started = props.phase !== constants.phase.waiting;
   const isDone = props.phase === constants.phase.done;
   const controlText =
     props.phase === constants.phase.paused ? 'Resume' : 'Pause';
-  const emptyEntries = !props.entries?.length;
+  const emptyEntries = !entries?.length;
   const showPauseResumeBtn = started && !isDone;
 
   const handlePause = () => {
@@ -72,14 +74,14 @@ const HeaderControl = (props) => {
   };
 
   const handleReset = () => {
-    props.setEntries(null);
+    setEntries(null);
     props.setProcessFileIndex(null);
     props.setPhase(constants.phase.waiting);
   };
 
   return (
     <div className={styles.root}>
-      <AppInput onReset={handleReset} setEntries={props.setEntries} />
+      <AppInput onReset={handleReset} setEntries={setEntries} />
       <div className={styles.control}>
         <Button
           disabled={emptyEntries || started}

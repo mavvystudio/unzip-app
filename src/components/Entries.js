@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import styles from './Entries.module.css';
 import RenameDialog from './RenameDialog';
 import EntryItem from './EntryItem';
+import { useZip } from './Context';
 
 const Entries = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const { copy, rename, entries } = useZip();
 
-  if (!props.entries) {
+  if (!entries) {
     return null;
   }
 
@@ -23,18 +25,18 @@ const Entries = (props) => {
   };
 
   const handleSave = (newName) => {
-    props.rename(selectedIndex, newName);
+    rename(selectedIndex, newName);
 
     setShowModal(false);
   };
 
   const handleCopy = (index) => {
-    props.copy(index);
+    copy(index);
   };
 
   return (
     <ul className={styles.root}>
-      {props.entries.map((item, index) => (
+      {entries.map((item, index) => (
         <EntryItem
           done={props.done}
           key={index}
@@ -48,7 +50,7 @@ const Entries = (props) => {
       ))}
       {showModal && (
         <RenameDialog
-          fileName={props.entries[selectedIndex].filename}
+          fileName={entries[selectedIndex].filename}
           onClose={handleClose}
           onSave={handleSave}
         />
