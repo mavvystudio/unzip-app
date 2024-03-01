@@ -5,7 +5,7 @@ import * as utils from '../utils';
 import styles from './App.module.css';
 import Entries from './Entries';
 
-const Unzipper = () => {
+const App = () => {
   // TODO: do not use index 0 as the initial value
   const [processFileIndex, setProcessFileIndex] = useState(0);
   const [phase, setPhase] = useState(constants.phase.waiting);
@@ -97,4 +97,4 @@ const Unzipper = () => {
   );
 };
 
-export default Unzipper;
+export default App;
