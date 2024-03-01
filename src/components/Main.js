@@ -50,7 +50,8 @@ const Main = () => {
       }
 
       handleExtractFile(item);
-      await utils.tick();
+      // simulate processing time
+      await utils.tick(300);
       setProcessFileIndex(processFileIndex + 1);
     })();
   }, [
