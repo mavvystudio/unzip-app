@@ -4,6 +4,8 @@ import * as constants from '../constants';
 import * as utils from '../utils';
 import { useZip } from './Context';
 import styles from './Main.module.css';
+
+import Alert from './Alert';
 import AppInput from './AppInput';
 import Button from './Button';
 import Entries from './Entries';
@@ -13,11 +15,23 @@ const Main = () => {
   const [phase, setPhase] = useState(constants.phase.waiting);
   const { entries, copy, rename, setEntries } = useZip();
   const [dirPicker, setDirPicker] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleExtractFile = useCallback(
     (item) => utils.extractFile(item, dirPicker),
     [dirPicker],
   );
+
+  const controlText = phase === constants.phase.paused ? 'Resume' : 'Pause';
+  const started = phase !== constants.phase.waiting;
+  const emptyEntries = !entries?.length;
+  const isDone = phase === constants.phase.done;
+
+  useEffect(() => {
+    if (isDone) {
+      setShowSuccess(true);
+    }
+  }, [isDone]);
 
   useEffect(() => {
     (async () => {
@@ -47,9 +61,9 @@ const Main = () => {
     setProcessFileIndex,
   ]);
 
-  const controlText = phase === constants.phase.paused ? 'Resume' : 'Pause';
-  const started = phase !== constants.phase.waiting;
-  const emptyEntries = !entries?.length;
+  const handleClose = () => {
+    setShowSuccess(false);
+  };
 
   const handlePause = () => {
     const value =
@@ -71,6 +85,7 @@ const Main = () => {
   };
 
   const handleReset = () => {
+    setEntries(null);
     setProcessFileIndex(null);
     setPhase(constants.phase.waiting);
   };
@@ -87,7 +102,7 @@ const Main = () => {
           >
             Unzip
           </Button>
-          {started && (
+          {started && !isDone && (
             <Button disabled={emptyEntries} onClick={handlePause}>
               {controlText}
             </Button>
@@ -99,7 +114,15 @@ const Main = () => {
         copy={copy}
         rename={rename}
         processFileIndex={started ? processFileIndex || 0 : undefined}
+        done={isDone}
       />
+      {showSuccess && (
+        <Alert
+          onClose={handleClose}
+          title="Success!"
+          message="Zip file extracted successfully"
+        />
+      )}
     </div>
   );
 };

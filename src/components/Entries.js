@@ -36,6 +36,7 @@ const Entries = (props) => {
     <ul className={styles.root}>
       {props.entries.map((item, index) => (
         <EntryItem
+          done={props.done}
           key={index}
           id={index}
           item={item}

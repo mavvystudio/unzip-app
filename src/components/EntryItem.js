@@ -28,7 +28,9 @@ const EntryItem = (props) => {
         <Button disabled={isDone} onClick={handleRename}>
           Rename
         </Button>
-        <Button onClick={handleCopy}>Copy</Button>
+        <Button disabled={props.done} onClick={handleCopy}>
+          Copy
+        </Button>
       </div>
       {props.item.filename}
     </li>
