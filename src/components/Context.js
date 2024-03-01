@@ -13,8 +13,21 @@ export const useZip = () => useContext(zipContext);
 function useZipContext() {
   const [entries, setEntries] = useState(null);
 
+  const rename = (index, name) => {
+    setEntries(
+      entries.map((item, i) => {
+        if (index !== i) {
+          return item;
+        }
+        item.filename = name;
+        return item;
+      }),
+    );
+  };
+
   return {
     entries,
     setEntries,
+    rename,
   };
 }

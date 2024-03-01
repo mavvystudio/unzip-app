@@ -8,7 +8,7 @@ import EntryItem from './EntryItem';
 const Entries = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const { entries } = useZip();
+  const { entries, rename } = useZip();
 
   if (!entries) {
     return null;
@@ -24,7 +24,7 @@ const Entries = (props) => {
   };
 
   const handleSave = (newName) => {
-    console.log({ newName });
+    rename(selectedIndex, newName);
   };
 
   return (
