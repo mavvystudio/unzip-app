@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as utils from './utils';
 
-export default function useZipContext() {
+export default function useZip() {
   const [entries, setEntries] = useState(null);
 
   const rename = (index, name) => {

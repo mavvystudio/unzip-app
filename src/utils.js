@@ -44,3 +44,9 @@ export const generateUniqueName = (name, items) => {
   }
   return newName;
 };
+
+export const isZip = (name) => {
+  const arr = name.split('.');
+  const ext = arr.pop();
+  return ext === 'zip';
+};

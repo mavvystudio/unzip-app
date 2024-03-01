@@ -11,6 +11,15 @@ const AppInput = (props) => {
     const file = event.target.files[0];
     props.onReset();
 
+    if (!utils.isZip(file.name)) {
+      props.setEntries(null);
+      setError({
+        title: 'File Error',
+        message: 'Please select a zip file',
+      });
+      return false;
+    }
+
     if (!file) {
       props.setEntries(null);
       return false;
