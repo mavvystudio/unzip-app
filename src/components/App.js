@@ -6,9 +6,8 @@ import useZip from '../use-zip.js';
 import styles from './App.module.css';
 
 import Alert from './Alert';
-import AppInput from './AppInput';
-import Button from './Button';
 import Entries from './Entries';
+import HeaderControl from './HeaderControl';
 
 const App = () => {
   const [processFileIndex, setProcessFileIndex] = useState(null);
@@ -23,9 +22,7 @@ const App = () => {
     [dirPicker],
   );
 
-  const controlText = phase === constants.phase.paused ? 'Resume' : 'Pause';
   const started = phase !== constants.phase.waiting;
-  const emptyEntries = !entries?.length;
   const isDone = phase === constants.phase.done;
 
   useEffect(() => {
@@ -80,13 +77,12 @@ const App = () => {
   const handleErrorClose = () => {
     setError(null);
   };
+  const defaultProcessIndex = processFileIndex || 0;
 
-  const handlePause = () => {
-    const value =
-      phase === constants.phase.paused
-        ? constants.phase.processing
-        : constants.phase.paused;
-    setPhase(value);
+  const handleReset = () => {
+    setEntries(null);
+    setProcessFileIndex(null);
+    setPhase(constants.phase.waiting);
   };
 
   const handleUnZip = async () => {
@@ -100,34 +96,24 @@ const App = () => {
     } catch (e) {}
   };
 
-  const handleReset = () => {
-    setEntries(null);
-    setProcessFileIndex(null);
-    setPhase(constants.phase.waiting);
+  const handlePause = () => {
+    const value =
+      phase === constants.phase.paused
+        ? constants.phase.processing
+        : constants.phase.paused;
+    setPhase(value);
   };
-
-  const defaultProcessIndex = processFileIndex || 0;
-  const showPauseResumeBtn = started && !isDone;
 
   return (
     <div className={styles.root}>
-      <div className={styles.header}>
-        <AppInput onReset={handleReset} setEntries={setEntries} />
-        <div className={styles.control}>
-          <Button
-            disabled={emptyEntries || started}
-            onClick={handleUnZip}
-            primary
-          >
-            Unzip
-          </Button>
-          {showPauseResumeBtn && (
-            <Button disabled={emptyEntries} onClick={handlePause}>
-              {controlText}
-            </Button>
-          )}
-        </div>
-      </div>
+      <HeaderControl
+        onUnZip={handleUnZip}
+        onReset={handleReset}
+        onPause={handlePause}
+        setEntries={setEntries}
+        phase={phase}
+        entries={entries}
+      />
       <Entries
         entries={entries}
         copy={copy}

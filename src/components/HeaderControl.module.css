@@ -1,0 +1,14 @@
+.root {
+  justify-content: center;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  display: flex;
+  padding: 2em;
+  background: var(--color-surface);
+}
+
+.control {
+  display: flex;
+  column-gap: 10px;
+}
