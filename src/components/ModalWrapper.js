@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './ModalWrapper.module.css';
 
-const ModalWrapper = ({ children }) => {
+const ModalWrapper = (props) => {
   return (
     <div className={styles.root}>
-      <div className={styles.backdrop}></div>
-      {children}
+      <div onClick={props.onClose} className={styles.backdrop}></div>
+      {props.children}
     </div>
   );
 };

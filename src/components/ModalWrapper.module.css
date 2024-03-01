@@ -11,7 +11,7 @@
 }
 
 .backdrop {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--color-backdrop);
   position: absolute;
   width: 100%;
   height: 100%;
