@@ -58,8 +58,7 @@ const App = () => {
         });
         return false;
       }
-      // simulate processing time
-      // await utils.tick(300);
+
       setProcessFileIndex(processFileIndex + 1);
     })();
   }, [
