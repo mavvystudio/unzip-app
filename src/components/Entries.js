@@ -1,15 +1,24 @@
 import React from 'react';
 
+import { useZip } from './Context';
+import EntryItem from './EntryItem';
+
 const Entries = (props) => {
-  if (!props.entries) {
+  const { entries } = useZip();
+
+  if (!entries) {
     return null;
   }
+
   return (
     <ul>
-      {props.entries.map((item, index) => (
-        <li key={index}>
-          {index < props.processFileIndex ? 'ok' : null} {item.filename}
-        </li>
+      {entries.map((item, index) => (
+        <EntryItem
+          key={index}
+          id={index}
+          item={item}
+          processFileIndex={props.processFileIndex}
+        />
       ))}
     </ul>
   );

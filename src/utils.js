@@ -22,7 +22,15 @@ export const getEntries = async (event) => {
 
   const entries = await zipReader.getEntries();
 
-  return entries;
+  return entries.filter((item) => {
+    if (item.directory) {
+      return false;
+    }
+    if (item.filename.includes('/')) {
+      return false;
+    }
+    return true;
+  });
 };
 
 export const tick = (ms = 1000) =>
