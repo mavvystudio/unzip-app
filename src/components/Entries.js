@@ -43,6 +43,7 @@ const Entries = (props) => {
           processFileIndex={props.processFileIndex}
           onRename={handleRename}
           onCopy={handleCopy}
+          phase={props.phase}
         />
       ))}
       {showModal && (

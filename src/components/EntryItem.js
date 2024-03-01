@@ -1,5 +1,6 @@
 import React from 'react';
 
+import * as constants from '../constants';
 import styles from './EntryItem.module.css';
 import Button from './Button';
 
@@ -21,14 +22,15 @@ const EntryItem = (props) => {
   };
 
   const entryStatus = styles[done || current];
+  const isDisabled = props.phase !== constants.phase.waiting;
 
   return (
     <li className={`${styles.root} ${entryStatus}`}>
       <div className={styles.control}>
-        <Button disabled={isDone} onClick={handleRename}>
+        <Button disabled={isDisabled} onClick={handleRename}>
           Rename
         </Button>
-        <Button disabled={props.done} onClick={handleCopy}>
+        <Button disabled={isDisabled} onClick={handleCopy}>
           Copy
         </Button>
       </div>

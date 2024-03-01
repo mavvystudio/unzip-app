@@ -51,7 +51,7 @@ const Main = () => {
       }
 
       try {
-        handleExtractFile(item);
+        await handleExtractFile(item);
       } catch (e) {
         setPhase(constants.phase.paused);
         setError({
@@ -62,7 +62,7 @@ const Main = () => {
         return false;
       }
       // simulate processing time
-      await utils.tick(300);
+      // await utils.tick(300);
       setProcessFileIndex(processFileIndex + 1);
     })();
   }, [
@@ -134,6 +134,7 @@ const Main = () => {
         rename={rename}
         processFileIndex={started ? defaultProcessIndex : undefined}
         done={isDone}
+        phase={phase}
       />
       {showSuccess && (
         <Alert
