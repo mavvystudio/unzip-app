@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
 
 import { useZip } from './Context';
 import RenameDialog from './RenameDialog';
@@ -25,6 +24,7 @@ const Entries = (props) => {
 
   const handleSave = (newName) => {
     rename(selectedIndex, newName);
+    setShowModal(false);
   };
 
   const handleCopy = (index) => {
@@ -43,15 +43,13 @@ const Entries = (props) => {
           onCopy={handleCopy}
         />
       ))}
-      {showModal &&
-        createPortal(
-          <RenameDialog
-            fileName={entries[selectedIndex].filename}
-            onClose={handleClose}
-            onSave={handleSave}
-          />,
-          document.body,
-        )}
+      {showModal && (
+        <RenameDialog
+          fileName={entries[selectedIndex].filename}
+          onClose={handleClose}
+          onSave={handleSave}
+        />
+      )}
     </ul>
   );
 };

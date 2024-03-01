@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import ModalWrapper from './ModalWrapper';
+import Modal from './Modal';
 import styles from './RenameDialog.module.css';
 
 const RenameDialog = (props) => {
@@ -16,7 +16,7 @@ const RenameDialog = (props) => {
   };
 
   return (
-    <ModalWrapper onClose={props.onClose}>
+    <Modal onClose={props.onClose}>
       <div className={styles.root}>
         <input className={styles.input} onChange={handleChange} value={value} />
         <div className={styles.control}>
@@ -24,7 +24,7 @@ const RenameDialog = (props) => {
           <button onClick={handleSave}>Save</button>
         </div>
       </div>
-    </ModalWrapper>
+    </Modal>
   );
 };
 
