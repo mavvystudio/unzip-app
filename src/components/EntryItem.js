@@ -5,6 +5,7 @@ import styles from './EntryItem.module.css';
 import Button from './Button';
 
 const EntryItem = (props) => {
+  console.log(props.item);
   const isDone = props.id < props.processFileIndex;
   const isCurrent = props.id === props.processFileIndex;
   const done = isDone && 'done';
@@ -22,7 +23,7 @@ const EntryItem = (props) => {
   };
 
   const entryStatus = styles[done || current];
-  const isDisabled = props.phase !== constants.phase.waiting;
+  const isDisabled = isDone || isCurrent;
 
   return (
     <li className={`${styles.root} ${entryStatus}`}>
@@ -30,9 +31,7 @@ const EntryItem = (props) => {
         <Button disabled={isDisabled} onClick={handleRename}>
           Rename
         </Button>
-        <Button disabled={isDisabled} onClick={handleCopy}>
-          Copy
-        </Button>
+        <Button onClick={handleCopy}>Copy</Button>
       </div>
       {props.item.filename}
     </li>

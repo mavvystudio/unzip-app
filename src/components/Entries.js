@@ -39,7 +39,7 @@ const Entries = (props) => {
       {entries.map((item, index) => (
         <EntryItem
           done={props.done}
-          key={index}
+          key={item.filename}
           id={index}
           item={item}
           processFileIndex={props.processFileIndex}
