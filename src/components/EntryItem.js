@@ -4,7 +4,6 @@ import styles from './EntryItem.module.css';
 import Button from './Button';
 
 const EntryItem = (props) => {
-  console.log(props.item);
   const isDone = props.id < props.processFileIndex;
   const isCurrent = props.id === props.processFileIndex;
   const done = isDone && 'done';
