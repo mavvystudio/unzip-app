@@ -8,7 +8,7 @@ import { useZip } from './Context';
 const Entries = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const { copy, rename, entries } = useZip();
+  const { copy, rename, remove, entries } = useZip();
 
   if (!entries) {
     return null;
@@ -34,6 +34,10 @@ const Entries = (props) => {
     copy(index);
   };
 
+  const handleRemove = (index) => {
+    remove(index);
+  };
+
   return (
     <ul className={styles.root}>
       {entries.map((item, index) => (
@@ -45,6 +49,7 @@ const Entries = (props) => {
           processFileIndex={props.processFileIndex}
           onRename={handleRename}
           onCopy={handleCopy}
+          onRemove={handleRemove}
           phase={props.phase}
         />
       ))}

@@ -31,10 +31,16 @@ function useZipContext() {
     setEntries(newEntries);
   };
 
+  const remove = (index) => {
+    const items = entries.filter((_, i) => i !== index);
+    setEntries(items);
+  };
+
   return {
     entries,
     setEntries,
     rename,
     copy,
+    remove,
   };
 }

@@ -20,6 +20,10 @@ const EntryItem = (props) => {
     props.onCopy(props.id);
   };
 
+  const handleRemove = () => {
+    props.onRemove(props.id);
+  };
+
   const entryStatus = styles[done || current];
   const isDisabled = isDone || isCurrent;
 
@@ -31,7 +35,10 @@ const EntryItem = (props) => {
         </Button>
         <Button onClick={handleCopy}>Copy</Button>
       </div>
-      {props.item.filename}
+      <p className={styles.text}>{props.item.filename}</p>
+      <Button disabled={isDisabled} onClick={handleRemove}>
+        Remove
+      </Button>
     </li>
   );
 };
