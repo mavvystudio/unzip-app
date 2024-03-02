@@ -16,15 +16,8 @@ function useZipContext() {
   const [entries, setEntries] = useState(null);
 
   const rename = (index, name) => {
-    const newEntries = entries.map((item, i) => {
-      if (index !== i) {
-        return item;
-      }
-      item.filename = name;
-      return item;
-    });
-
-    setEntries(newEntries);
+    entries[index].filename = name;
+    setEntries(entries);
   };
 
   const copy = (index) => {
