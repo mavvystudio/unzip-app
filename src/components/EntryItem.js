@@ -1,6 +1,5 @@
 import React from 'react';
 
-import * as constants from '../constants';
 import styles from './EntryItem.module.css';
 import Button from './Button';
 
