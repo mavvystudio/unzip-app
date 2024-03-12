@@ -1,6 +1,6 @@
-import React, { useContext, createContext, useState } from 'react';
+import React, { useContext, createContext, useState } from "react";
 
-import * as utils from '../utils';
+import * as utils from "../utils";
 
 const zipContext = createContext();
 
@@ -16,8 +16,15 @@ function useZipContext() {
   const [entries, setEntries] = useState(null);
 
   const rename = (index, name) => {
-    entries[index].filename = name;
-    setEntries(entries);
+    const newEntries = entries.map((item, i) => {
+      if (index !== i) {
+        return item;
+      }
+      item.filename = name;
+      return item;
+    });
+
+    setEntries(newEntries);
   };
 
   const copy = (index) => {
